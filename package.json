@@ -1,10 +1,10 @@
 {
-  "name": "terminal",
-  "main": "./lib/terminal",
+  "name": "atom-terminal",
+  "main": "./lib/atom-terminal",
   "version": "0.1.0",
   "description": "Open terminal in the current file's directory.",
   "activationEvents": [
-    "terminal:open"
+    "atom-terminal:open"
   ],
   "repository": "https://github.com/karan/atom-terminal",
   "license": "MIT",
