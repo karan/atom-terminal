@@ -7,6 +7,8 @@ module.exports =
         app: 'Terminal.app'
         args: ''
         surpressDirectoryArgument: false
+        setWorkingDirectory: false
+        macRunDirectly: false
     },
     activate: ->
         atom.workspaceView.command "atom-terminal:open", => @open()
@@ -17,12 +19,18 @@ module.exports =
             dirpath = path.dirname(filepath)
             app = atom.config.get('atom-terminal.app')
             args = atom.config.get('atom-terminal.args')
+            setWorkingDirectory = atom.config.get('atom-terminal.setWorkingDirectory')
 
             cmdline = "#{app} #{args}"
             if !atom.config.get('surpressDirectoryArgument')
                 cmdline  += "\"#{dirpath}\""
-
-            if platform == "darwin"
+            if platform() == "darwin" && ! atom.config.get('macRunDirectly')
+              if setWorkingDirectory
                 exec "open -a "+cmdline, cwd: dirpath if dirpath?
+              else
+                exec "open -a "+cmdline if dirpath?
             else
+              if setWorkingDirectory
                 exec cmdline, cwd: dirpath if dirpath?
+              else
+                exec cmdline if dirpath?
