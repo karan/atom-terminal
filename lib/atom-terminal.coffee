@@ -53,7 +53,7 @@ if platform() == 'darwin'
 else if platform() == 'win32'
   # Defaults for windows, use cmd.exe as default
   module.exports.configDefaults = {
-        app: 'C:\Windows\System32\cmd.exe'
+        app: 'C:\\Windows\\System32\\cmd.exe'
         args: ''
         surpressDirectoryArgument: false
         setWorkingDirectory: true
