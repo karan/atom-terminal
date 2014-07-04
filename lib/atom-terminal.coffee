@@ -2,6 +2,37 @@ exec = require('child_process').exec
 path = require('path')
 platform = require('os').platform
 
+###
+   Opens a terminal in the given directory, as specefied by the config
+###
+open_terminal = (dirpath) ->
+  # Figure out the app and the arguments
+  app = atom.config.get('atom-terminal.app')
+  args = atom.config.get('atom-terminal.args')
+
+  # Do we want to set the working directory?
+  setWorkingDirectory = atom.config.get('atom-terminal.setWorkingDirectory')
+
+  # Start assembling the command line
+  cmdline = "#{app} #{args}"
+
+  # If we do not supress the directory argument, add the directory as an argument
+  if !atom.config.get('surpressDirectoryArgument')
+      cmdline  += "\"#{dirpath}\""
+
+  # For mac, we prepend open -a unless we run it directly
+  if platform() == "darwin" && !atom.config.get('MacWinRunDirectly')
+    cmdline = "open -a " + cmdline
+
+  # for windows, we prepend start unless we run it directly.
+  if platform() == "win32" && !atom.config.get('MacWinRunDirectly')
+    cmdline = "start " + cmdline
+
+  # Set the working directory if configured
+  if setWorkingDirectory
+    exec cmdline, cwd: dirpath if dirpath?
+  else
+    exec cmdline if dirpath?
 
 
 module.exports =
@@ -10,35 +41,7 @@ module.exports =
     open: ->
         filepath = atom.workspaceView.find('.tree-view .selected')?.view()?.getPath?()
         if filepath
-            dirpath = path.dirname(filepath)
-
-            # Figure out the app and the arguments
-            app = atom.config.get('atom-terminal.app')
-            args = atom.config.get('atom-terminal.args')
-
-            # Do we want to set the working directory?
-            setWorkingDirectory = atom.config.get('atom-terminal.setWorkingDirectory')
-
-            # Start assembling the command line
-            cmdline = "#{app} #{args}"
-
-            # If we do not supress the directory argument, add the directory as an argument
-            if !atom.config.get('surpressDirectoryArgument')
-                cmdline  += "\"#{dirpath}\""
-
-            # For mac, we prepend open -a unless we run it directly
-            if platform() == "darwin" && !atom.config.get('MacWinRunDirectly')
-              cmdline = "open -a " + cmdline
-
-            # for windows, we prepend start unless we run it directly.
-            if platform() == "win32" && !atom.config.get('MacWinRunDirectly')
-              cmdline = "start " + cmdline
-
-            # Set the working directory if configured
-            if setWorkingDirectory
-              exec cmdline, cwd: dirpath if dirpath?
-            else
-              exec cmdline if dirpath?
+            open_terminal path.dirname(filepath)
 
 # Set per-platform defaults
 if platform() == 'darwin'
