@@ -10,22 +10,24 @@ open_terminal = (dirpath) ->
   app = atom.config.get('atom-terminal.app')
   args = atom.config.get('atom-terminal.args')
 
-  # Do we want to set the working directory?
+  # get options
   setWorkingDirectory = atom.config.get('atom-terminal.setWorkingDirectory')
+  surpressDirArg = atom.config.get('atom-terminal.surpressDirectoryArgument')
+  runDirectly = atom.config.get('atom-terminal.MacWinRunDirectly')
 
   # Start assembling the command line
   cmdline = "#{app} #{args}"
 
   # If we do not supress the directory argument, add the directory as an argument
-  if !atom.config.get('surpressDirectoryArgument')
+  if !surpressDirArg
       cmdline  += "\"#{dirpath}\""
 
   # For mac, we prepend open -a unless we run it directly
-  if platform() == "darwin" && !atom.config.get('MacWinRunDirectly')
+  if platform() == "darwin" && !runDirectly
     cmdline = "open -a " + cmdline
 
   # for windows, we prepend start unless we run it directly.
-  if platform() == "win32" && !atom.config.get('MacWinRunDirectly')
+  if platform() == "win32" && !runDirectly
     cmdline = "start " + cmdline
 
   # Set the working directory if configured
@@ -67,7 +69,7 @@ else
     module.exports.configDefaults = {
         app: '/usr/bin/xterm'
         args: ''
-        surpressDirectoryArgument: false
+        surpressDirectoryArgument: true
         setWorkingDirectory: true
         MacWinRunDirectly: false
     }
