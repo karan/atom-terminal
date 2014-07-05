@@ -4,7 +4,8 @@
   "version": "0.2.0",
   "description": "Open terminal in the current file's directory.",
   "activationEvents": [
-    "atom-terminal:open"
+    "atom-terminal:open",
+    "atom-terminal:open-project-root"
   ],
   "repository": "https://github.com/karan/atom-terminal",
   "license": "MIT",
