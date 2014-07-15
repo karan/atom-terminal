@@ -16,7 +16,7 @@ open_terminal = (dirpath) ->
   runDirectly = atom.config.get('atom-terminal.MacWinRunDirectly')
 
   # Start assembling the command line
-  cmdline = "#{app} #{args}"
+  cmdline = "\"#{app}\" #{args}"
 
   # If we do not supress the directory argument, add the directory as an argument
   if !surpressDirArg
