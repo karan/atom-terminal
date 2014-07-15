@@ -28,7 +28,7 @@ open_terminal = (dirpath) ->
 
   # for windows, we prepend start unless we run it directly.
   if platform() == "win32" && !runDirectly
-    cmdline = "start " + cmdline
+    cmdline = "start \"\" " + cmdline
 
   # Set the working directory if configured
   if setWorkingDirectory
