@@ -2,7 +2,9 @@
 
 Open terminal on current file's directory with `ctrl-shift-t`.
 
-Keybinding: `ctrl-shift-t`
+Open a terminal in the project's root directory with `alt-shift-t`. 
+
+Keybindings: `ctrl-shift-t`, `alt-shift-t`
 
 Install: `apm install atom-terminal`
 

@@ -9,3 +9,4 @@
 # https://atom.io/docs/latest/advanced/keymaps
 '.workspace':
     'ctrl-shift-t': 'atom-terminal:open'
+    'alt-shift-t': 'atom-terminal:open-project-root'

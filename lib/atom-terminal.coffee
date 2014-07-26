@@ -16,7 +16,7 @@ open_terminal = (dirpath) ->
   runDirectly = atom.config.get('atom-terminal.MacWinRunDirectly')
 
   # Start assembling the command line
-  cmdline = "#{app} #{args}"
+  cmdline = "\"#{app}\" #{args}"
 
   # If we do not supress the directory argument, add the directory as an argument
   if !surpressDirArg
@@ -28,7 +28,7 @@ open_terminal = (dirpath) ->
 
   # for windows, we prepend start unless we run it directly.
   if platform() == "win32" && !runDirectly
-    cmdline = "start " + cmdline
+    cmdline = "start \"\" " + cmdline
 
   # Set the working directory if configured
   if setWorkingDirectory
@@ -40,10 +40,14 @@ open_terminal = (dirpath) ->
 module.exports =
     activate: ->
         atom.workspaceView.command "atom-terminal:open", => @open()
+        atom.workspaceView.command "atom-terminal:open-project-root", => @openroot()
     open: ->
         filepath = atom.workspaceView.find('.tree-view .selected')?.view()?.getPath?()
         if filepath
             open_terminal path.dirname(filepath)
+    openroot: ->
+        if atom.project.path
+            open_terminal atom.project.path
 
 # Set per-platform defaults
 if platform() == 'darwin'
