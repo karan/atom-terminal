@@ -71,7 +71,7 @@ else if platform() == 'win32'
 else
     # Defaults for all other systems (linux I assume), use xterm
     module.exports.configDefaults = {
-        app: '/usr/bin/xterm'
+        app: '/usr/bin/x-terminal-emulator'
         args: ''
         surpressDirectoryArgument: true
         setWorkingDirectory: true
