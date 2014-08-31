@@ -30,6 +30,9 @@ open_terminal = (dirpath) ->
   if platform() == "win32" && !runDirectly
     cmdline = "start \"\" " + cmdline
 
+  # log the command so we have context if it fails
+  console.log("atom-terminal executing: ", cmdline)
+
   # Set the working directory if configured
   if setWorkingDirectory
     exec cmdline, cwd: dirpath if dirpath?
