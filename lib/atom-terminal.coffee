@@ -20,7 +20,7 @@ open_terminal = (dirpath) ->
 
   # If we do not supress the directory argument, add the directory as an argument
   if !surpressDirArg
-      cmdline  += "\"#{dirpath}\""
+      cmdline  += " \"#{dirpath}\""
 
   # For mac, we prepend open -a unless we run it directly
   if platform() == "darwin" && !runDirectly
