@@ -45,7 +45,9 @@ module.exports =
         atom.workspaceView.command "atom-terminal:open", => @open()
         atom.workspaceView.command "atom-terminal:open-project-root", => @openroot()
     open: ->
-        filepath = atom.workspaceView.find('.tree-view .selected')?.view()?.getPath?()
+        editor = atom.workspace.getActivePaneItem()
+        file = editor?.buffer.file
+        filepath = file?.path
         if filepath
             open_terminal path.dirname(filepath)
     openroot: ->
