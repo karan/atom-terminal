@@ -1,7 +1,7 @@
 {
   "name": "atom-terminal",
   "main": "./lib/atom-terminal",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Open terminal in the current file's directory.",
   "activationEvents": [
     "atom-terminal:open",
