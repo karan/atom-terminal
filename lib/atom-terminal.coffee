@@ -50,9 +50,6 @@ module.exports =
         filepath = file?.path
         if filepath
             open_terminal path.dirname(filepath)
-        else
-            @openroot
-
     openroot: ->
         open_terminal path for path in atom.project.getPaths()
 
