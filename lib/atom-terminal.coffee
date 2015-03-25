@@ -51,7 +51,7 @@ module.exports =
         if filepath
             open_terminal path.dirname(filepath)
     openroot: ->
-        open_terminal path for path in atom.project.getPaths()
+        open_terminal pathname for pathname in atom.project.getPaths()
 
 # Set per-platform defaults
 if platform() == 'darwin'
