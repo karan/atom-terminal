@@ -1,9 +1,10 @@
 exec = require('child_process').exec
 path = require('path')
 platform = require('os').platform
+{CompositeDisposable} = require 'atom'
 
 ###
-   Opens a terminal in the given directory, as specefied by the config
+  Opens a terminal in the given directory, as specefied by the config
 ###
 open_terminal = (dirpath) ->
   # Figure out the app and the arguments
@@ -20,7 +21,7 @@ open_terminal = (dirpath) ->
 
   # If we do not supress the directory argument, add the directory as an argument
   if !surpressDirArg
-      cmdline  += " \"#{dirpath}\""
+    cmdline  += " \"#{dirpath}\""
 
   # For mac, we prepend open -a unless we run it directly
   if platform() == "darwin" && !runDirectly
@@ -41,43 +42,50 @@ open_terminal = (dirpath) ->
 
 
 module.exports =
-    activate: ->
-        atom.commands.add "atom-workspace", "atom-terminal:open", => @open()
-        atom.commands.add "atom-workspace", "atom-terminal:open-project-root", => @openroot()
-    open: ->
-        editor = atom.workspace.getActivePaneItem()
-        file = editor?.buffer?.file
-        filepath = file?.path
-        if filepath
-            open_terminal path.dirname(filepath)
-    openroot: ->
-        open_terminal pathname for pathname in atom.project.getPaths()
+  subscriptions: null
+
+  activate: ->
+    @subscriptions = new CompositeDisposable
+    @subscriptions.add atom.commands.add "atom-workspace", "atom-terminal:open", => @open()
+    @subscriptions.add atom.commands.add "atom-workspace", "atom-terminal:open-project-root", => @openroot()
+
+  deactivate: ->
+    @subscriptions?.dispose()
+    @subscriptions = null
+
+  open: ->
+    editor = atom.workspace.getActivePaneItem()
+    file = editor?.buffer?.file
+    filepath = file?.path
+    if filepath
+      open_terminal path.dirname(filepath)
+
+  openroot: ->
+    open_terminal pathname for pathname in atom.project.getPaths()
+
 
 # Set per-platform defaults
 if platform() == 'darwin'
   # Defaults for Mac, use Terminal.app
-  module.exports.configDefaults = {
-        app: 'Terminal.app'
-        args: ''
-        surpressDirectoryArgument: false
-        setWorkingDirectory: false
-        MacWinRunDirectly: false
-  }
+  module.exports.configDefaults =
+    app: 'Terminal.app'
+    args: ''
+    surpressDirectoryArgument: false
+    setWorkingDirectory: false
+    MacWinRunDirectly: false
 else if platform() == 'win32'
   # Defaults for windows, use cmd.exe as default
-  module.exports.configDefaults = {
-        app: 'C:\\Windows\\System32\\cmd.exe'
-        args: ''
-        surpressDirectoryArgument: false
-        setWorkingDirectory: true
-        MacWinRunDirectly: false
-  }
+  module.exports.configDefaults =
+    app: 'C:\\Windows\\System32\\cmd.exe'
+    args: ''
+    surpressDirectoryArgument: false
+    setWorkingDirectory: true
+    MacWinRunDirectly: false
 else
-    # Defaults for all other systems (linux I assume), use xterm
-    module.exports.configDefaults = {
-        app: '/usr/bin/x-terminal-emulator'
-        args: ''
-        surpressDirectoryArgument: true
-        setWorkingDirectory: true
-        MacWinRunDirectly: false
-    }
+  # Defaults for all other systems (linux I assume), use xterm
+  module.exports.configDefaults =
+    app: '/usr/bin/x-terminal-emulator'
+    args: ''
+    surpressDirectoryArgument: true
+    setWorkingDirectory: true
+    MacWinRunDirectly: false
