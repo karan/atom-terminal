@@ -3,10 +3,10 @@
   "main": "./lib/atom-terminal",
   "version": "0.7.0",
   "description": "Open terminal in the current file's directory.",
-  "activationEvents": [
-    "atom-terminal:open",
-    "atom-terminal:open-project-root"
-  ],
+  "activationCommands": {
+    "atom-workspace": ["atom-terminal:open"],
+    "atom-workspace": ["open-project-root"]
+  },
   "repository": "https://github.com/karan/atom-terminal",
   "license": "MIT",
   "engines": {
