@@ -58,53 +58,53 @@ if platform() == 'darwin'
   # Defaults for Mac, use Terminal.app
   module.exports.config =
     app:
-      type: string
+      type: 'string'
       default: 'Terminal.app'
     args:
-      type: string
+      type: 'string'
       default: ''
     surpressDirectoryArgument:
-      type: boolean
+      type: 'boolean'
       default: true
     setWorkingDirectory:
-      type: boolean
+      type: 'boolean'
       default: true
     MacWinRunDirectly:
-      type: boolean
-        default: false
+      type: 'boolean'
+      default: false
 else if platform() == 'win32'
   # Defaults for windows, use cmd.exe as default
   module.exports.config =
       app:
-        type: string
-        default: '/usr/bin/x-terminal-emulator'
+        type: 'string'
+        default: 'C:\\Windows\\System32\\cmd.exe'
       args:
-        type: string
+        type: 'string'
         default: ''
       surpressDirectoryArgument:
-        type: boolean
+        type: 'boolean'
         default: true
       setWorkingDirectory:
-        type: boolean
+        type: 'boolean'
         default: true
       MacWinRunDirectly:
-        type: boolean
+        type: 'boolean'
         default: false
 else
   # Defaults for all other systems (linux I assume), use xterm
   module.exports.config =
       app:
-        type: string
+        type: 'string'
         default: '/usr/bin/x-terminal-emulator'
       args:
-        type: string
+        type: 'string'
         default: ''
       surpressDirectoryArgument:
-        type: boolean
+        type: 'boolean'
         default: true
       setWorkingDirectory:
-        type: boolean
+        type: 'boolean'
         default: true
       MacWinRunDirectly:
-        type: boolean
+        type: 'boolean'
         default: false
