@@ -5,7 +5,7 @@
   "description": "Open terminal in the current file's directory.",
   "activationCommands": {
     "atom-workspace": ["atom-terminal:open"],
-    "atom-workspace": ["open-project-root"]
+    "atom-workspace": ["atom-terminal:open-project-root"]
   },
   "repository": "https://github.com/karan/atom-terminal",
   "license": "MIT",
