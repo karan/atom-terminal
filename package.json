@@ -1,11 +1,12 @@
 {
   "name": "atom-terminal",
   "main": "./lib/atom-terminal",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Open terminal in the current file's directory.",
   "activationCommands": {
-    "atom-workspace": ["atom-terminal:open"],
-    "atom-workspace": ["atom-terminal:open-project-root"]
+    "atom-workspace": [
+      "atom-terminal:open-project-root"
+    ]
   },
   "repository": "https://github.com/karan/atom-terminal",
   "license": "MIT",
