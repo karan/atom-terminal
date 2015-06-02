@@ -65,7 +65,7 @@ if platform() == 'darwin'
       default: ''
     surpressDirectoryArgument:
       type: 'boolean'
-      default: true
+      default: false
     setWorkingDirectory:
       type: 'boolean'
       default: true
@@ -83,7 +83,7 @@ else if platform() == 'win32'
         default: ''
       surpressDirectoryArgument:
         type: 'boolean'
-        default: true
+        default: false
       setWorkingDirectory:
         type: 'boolean'
         default: true
@@ -101,7 +101,7 @@ else
         default: ''
       surpressDirectoryArgument:
         type: 'boolean'
-        default: true
+        default: false
       setWorkingDirectory:
         type: 'boolean'
         default: true
