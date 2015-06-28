@@ -48,7 +48,7 @@ get_file_name_and_path = ->
     file = editor?.buffer?.file
     path = file?.path
     name = file?.getBaseName()
-    return [name, path]
+    [name, path]
 
 
 module.exports =
