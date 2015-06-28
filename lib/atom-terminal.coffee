@@ -5,7 +5,7 @@ platform = require('os').platform
 ###
    Opens a terminal in the given directory, as specefied by the config
 ###
-open_terminal = (dirpath) ->
+open_terminal = (dirpath, filename) ->
   # Figure out the app and the arguments
   app = atom.config.get('atom-terminal.app')
   args = atom.config.get('atom-terminal.args')
@@ -30,6 +30,10 @@ open_terminal = (dirpath) ->
   if platform() == "win32" && !runDirectly
     cmdline = "start \"\" " + cmdline
 
+  # Export filename to $f
+  if filename?
+      cmdline = "f=\"#{filename}\" " + cmdline
+
   # log the command so we have context if it fails
   console.log("atom-terminal executing: ", cmdline)
 
@@ -39,19 +43,24 @@ open_terminal = (dirpath) ->
   else
     exec cmdline if dirpath?
 
+get_file_path = ->
+    editor = atom.workspace.getActivePaneItem()
+    file = editor?.buffer?.file
+    file?.path
+
 
 module.exports =
     activate: ->
         atom.commands.add "atom-workspace", "atom-terminal:open", => @open()
         atom.commands.add "atom-workspace", "atom-terminal:open-project-root", => @openroot()
     open: ->
-        editor = atom.workspace.getActivePaneItem()
-        file = editor?.buffer?.file
-        filepath = file?.path
-        if filepath
-            open_terminal path.dirname(filepath)
+        filepath = get_file_path()
+        if filepath?
+            open_terminal path.dirname(filepath), path.basename(filepath)
     openroot: ->
-        open_terminal pathname for pathname in atom.project.getPaths()
+        filepath = get_file_path()
+        filename = path.basename(filepath)
+        open_terminal pathname, filename for pathname in atom.project.getPaths()
 
 # Set per-platform defaults
 if platform() == 'darwin'
