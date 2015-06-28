@@ -43,22 +43,25 @@ open_terminal = (dirpath, filename) ->
   else
     exec cmdline if dirpath?
 
+get_file_name_and_path = ->
+    editor = atom.workspace.getActivePaneItem()
+    file = editor?.buffer?.file
+    path = file?.path
+    name = file?.getBaseName()
+    return [name, path]
+
 
 module.exports =
     activate: ->
         atom.commands.add "atom-workspace", "atom-terminal:open", => @open()
         atom.commands.add "atom-workspace", "atom-terminal:open-project-root", => @openroot()
     open: ->
-        editor = atom.workspace.getActivePaneItem()
-        file = editor?.buffer?.file
-        filepath = file?.path
+        [filename, filepath] = get_file_name_and_path()
         if filepath
-            open_terminal path.dirname(filepath), filepath
+            open_terminal path.dirname(filepath), filename
     openroot: ->
-        editor = atom.workspace.getActivePaneItem()
-        file = editor?.buffer?.file
-        filepath = file?.path
-        open_terminal pathname, filepath for pathname in atom.project.getPaths()
+        [filename, filepath] = get_file_name_and_path()
+        open_terminal pathname, filename for pathname in atom.project.getPaths()
 
 # Set per-platform defaults
 if platform() == 'darwin'
