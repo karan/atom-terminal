@@ -1,4 +1,5 @@
 exec = require('child_process').exec
+fs = require('fs')
 path = require('path')
 platform = require('os').platform
 
@@ -91,14 +92,29 @@ else if platform() == 'win32'
         type: 'boolean'
         default: false
 else
-  # Defaults for all other systems (linux I assume), use xterm
+  # Defaults for all other systems (linux I assume)
+  # Check for existance of common terminals and set appropriate default args
+  linux_terms = [
+    {path: '/usr/bin/gnome-terminal', args: '--working-directory'},
+    {path: '/usr/bin/konsole', args: '--workdir'},
+    {path: '/usr/bin/xfce4-terminal', args: '--working-directory'},
+    {path: '/usr/bin/lxterminal', args: '--working-directory'},
+    {path: '/usr/bin/urxvt', args: '-cd'},
+  ]
+  default_term = {path: '/usr/bin/x-terminal-emulator', args: ''}
+  for term in linux_terms
+      try
+        if fs.statSync(term.path).isFile()
+          default_term = term
+          break
+
   module.exports.config =
       app:
         type: 'string'
-        default: '/usr/bin/x-terminal-emulator'
+        default: default_term.path
       args:
         type: 'string'
-        default: ''
+        default: default_term.args
       surpressDirectoryArgument:
         type: 'boolean'
         default: false

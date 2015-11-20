@@ -1,0 +1,2 @@
+'context-menu':
+  '.platform-linux .tree-view': [{label: 'Open Terminal at Root', command: 'atom-terminal:open-project-root'}]
