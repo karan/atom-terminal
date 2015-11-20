@@ -51,7 +51,21 @@ module.exports =
         if filepath
             open_terminal path.dirname(filepath)
     openroot: ->
-        open_terminal pathname for pathname in atom.project.getPaths()
+        root_paths = atom.project.getPaths()
+        if root_paths.length > 1
+            editor = atom.workspace.getActivePaneItem()
+            file = editor?.buffer?.file
+            filepath = file?.path
+            if filepath
+                this_path = path.dirname(filepath)
+                for root_path in root_paths
+                    path_matches = root_path is this_path
+                    path_in_root = this_path.indexOf(root_path+'/') is 0
+                    if path_matches or path_in_root
+                        open_terminal root_path
+                        break
+        else
+            open_terminal pathname for pathname in root_paths
 
 # Set per-platform defaults
 if platform() == 'darwin'
