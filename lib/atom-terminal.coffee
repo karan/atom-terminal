@@ -33,11 +33,16 @@ open_terminal = (dirpath) ->
   # log the command so we have context if it fails
   console.log("atom-terminal executing: ", cmdline)
 
-  # Set the working directory if configured
-  if setWorkingDirectory
-    exec cmdline, cwd: dirpath if dirpath?
-  else
-    exec cmdline if dirpath?
+  options =
+    env: {}
+    # Set the working directory if configured
+    cwd: dirpath if setWorkingDirectory
+
+  for key, value of process.env
+    options.env[key] = value if key not in ['NODE_PATH', 'NODE_ENV', 'GOOGLE_API_KEY', 'ATOM_HOME']
+
+  exec cmdline, options if dirpath?
+
 
 
 module.exports =
