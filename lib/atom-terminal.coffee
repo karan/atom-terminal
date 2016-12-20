@@ -9,6 +9,9 @@ open_terminal = (dirpath) ->
   # Figure out the app and the arguments
   app = atom.config.get('atom-terminal.app')
   args = atom.config.get('atom-terminal.args')
+   
+   # Adds the dirpath to the args if the pattern "[dirpath]" is found
+  args = args.replace /\[dirpath\]/, dirpath
 
   # get options
   setWorkingDirectory = atom.config.get('atom-terminal.setWorkingDirectory')
